@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +13,19 @@ import com.riwi.filtro_spring_boot.api.dto.request.StudentRequest;
 import com.riwi.filtro_spring_boot.api.dto.response.StudentBasicResponse;
 import com.riwi.filtro_spring_boot.api.dto.response.StudentResponse;
 import com.riwi.filtro_spring_boot.domain.entities.Student;
+import com.riwi.filtro_spring_boot.domain.repositories.StudentRepository;
 import com.riwi.filtro_spring_boot.infraestructure.abstract_service.IStudentService;
 import com.riwi.filtro_spring_boot.utils.enums.SortType;
+import com.riwi.filtro_spring_boot.utils.exceptions.BadRequestException;
 
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class StudentService implements IStudentService{
+
+    @Autowired
+    private final StudentRepository studentRepository;
 
     @Override
     public StudentResponse create(StudentRequest request) {
@@ -62,6 +68,16 @@ public List<StudentBasicResponse> listToBasic(List<Student> list) {
          return studentBasicResponses;
     }
 
+    private Student requestToEntity(StudentRequest request){
+        Student student = new Student();
+        BeanUtils.copyProperties(request,student);
+        return student;
+    }
+
     
+    private Student find(Long id){
+        return this.studentRepository.findById(id)
+                .orElseThrow(()-> new BadRequestException("estudiante"));
+    }
     
 }
