@@ -31,4 +31,6 @@ public class StudentRequest {
     private String email;
     @NotNull(message = "Active is required")
     private boolean active;
+    @NotNull(message = "Class is required")
+    private Long classEntityId;
 }
