@@ -17,4 +17,5 @@ public class StudentResponse {
     private String email;
     private LocalDateTime created_at;  
     private boolean active;
+    private ClassEntityBasicResponse classEntity;
 }

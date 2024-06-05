@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import com.riwi.filtro_spring_boot.api.dto.response.LessonBasicResponse;
 import com.riwi.filtro_spring_boot.api.dto.response.LessonResponse;
 import com.riwi.filtro_spring_boot.domain.entities.Lesson;
 import com.riwi.filtro_spring_boot.infraestructure.abstract_service.ILessonService;
+import com.riwi.filtro_spring_boot.infraestructure.abstract_service.IMultimediaService;
 import com.riwi.filtro_spring_boot.utils.enums.SortType;
 
 import lombok.AllArgsConstructor;
@@ -21,10 +23,13 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LessonService implements ILessonService {
 
+    @Autowired
+    private MultimediaService multimediaService;
+
     @Override
     public LessonResponse create(LessonRequest request) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        throw new UnsupportedOperationException("Unimplemented method 'get'");
     }
 
     @Override
@@ -49,6 +54,13 @@ public class LessonService implements ILessonService {
     public Page<LessonResponse> getAll(int page, int size, SortType sort) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+    }
+
+    private LessonResponse entityToResponse(Lesson entity){
+        LessonResponse lessonResponse = new LessonResponse();
+        BeanUtils.copyProperties(entity, lessonResponse);
+        lessonResponse.setMultimedias(this.multimediaService.listToBasic(entity.getMultimedias()));
+        return lessonResponse;
     }
 
     public List<LessonBasicResponse> listToBasic(List<Lesson> list) {
