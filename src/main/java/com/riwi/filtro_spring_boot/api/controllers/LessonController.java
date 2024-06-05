@@ -32,7 +32,7 @@ public class LessonController {
     @Autowired
     private final ILessonService lessonService;
 
-    @Operation(summary = "Delete class", description = "Retrieve a list of all users")
+    @Operation(summary = "get all lesson", description = "Retrieve a list of all users")
     @GetMapping
     public ResponseEntity<Page<LessonResponse>> getAll(
             @RequestParam(defaultValue = "1") int page,
@@ -44,7 +44,7 @@ public class LessonController {
         return ResponseEntity.ok(this.lessonService.getAll(page - 1, size, sortType));
     }
 
-    @Operation(summary = "Delete class", description = "Retrieve a list of all users")
+    @Operation(summary = "get lesson", description = "Retrieve a list of all users")
     @GetMapping(path = "/{id}")
     public ResponseEntity<LessonResponse> get(
             @PathVariable Long id
@@ -52,7 +52,7 @@ public class LessonController {
         return ResponseEntity.ok(this.lessonService.get(id));
     }
 
-    @Operation(summary = "Delete class", description = "Retrieve a list of all users")
+    @Operation(summary = "create lesson", description = "Retrieve a list of all users")
     @PostMapping
     public ResponseEntity<LessonResponse> insert(
             @Validated @RequestBody LessonRequest request) {
@@ -60,7 +60,7 @@ public class LessonController {
         return ResponseEntity.ok(this.lessonService.create(request));
     }
 
-    @Operation(summary = "Delete class", description = "Retrieve a list of all users")
+    @Operation(summary = "Modify lesson", description = "Retrieve a list of all users")
     @PutMapping(path = "/{id}")
     public ResponseEntity<LessonResponse> update(
             @Validated @RequestBody LessonRequest request,
@@ -69,7 +69,7 @@ public class LessonController {
         return ResponseEntity.ok(this.lessonService.update(request, id));
     }
 
-    @Operation(summary = "Delete class", description = "Retrieve a list of all users")
+    @Operation(summary = "Delete lesson", description = "Retrieve a list of all users")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(
             @PathVariable Long id
