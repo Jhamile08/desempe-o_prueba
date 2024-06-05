@@ -1,6 +1,8 @@
 package com.riwi.filtro_spring_boot.api.dto.request;
 
 
+import java.util.List;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,4 +35,5 @@ public class StudentRequest {
     private boolean active;
     @NotNull(message = "Class is required")
     private Long classEntityId;
+
 }

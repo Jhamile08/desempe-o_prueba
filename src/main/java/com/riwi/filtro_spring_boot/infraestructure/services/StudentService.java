@@ -40,6 +40,7 @@ public class StudentService implements IStudentService{
     public StudentResponse create(StudentRequest request) {
         Student student =  this.requestToEntity(request);
         student.setCreated_at(LocalDateTime.now());
+
         ClassEntity classEntity = this.classEntityRepository.findById(request.getClassEntityId()).orElseThrow(()-> new BadRequestException("class"));
 
         student.setClassEntity(classEntity);
