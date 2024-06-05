@@ -1,6 +1,7 @@
 package com.riwi.filtro_spring_boot.api.dto.request;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -32,4 +33,5 @@ public class LessonRequest {
     private LocalDateTime created_at;   
     @NotNull(message = "Active is required") 
     private boolean active;
+    private List<MultimediaRequest> multimedia;
 }

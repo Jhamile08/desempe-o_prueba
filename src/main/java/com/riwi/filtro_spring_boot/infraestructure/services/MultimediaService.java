@@ -5,18 +5,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
 import com.riwi.filtro_spring_boot.api.dto.request.MultimediaRequest;
 import com.riwi.filtro_spring_boot.api.dto.response.LessonBasicResponse;
 import com.riwi.filtro_spring_boot.api.dto.response.MultimediaResponse;
 import com.riwi.filtro_spring_boot.domain.entities.Lesson;
 import com.riwi.filtro_spring_boot.domain.entities.Multimedia;
+import com.riwi.filtro_spring_boot.domain.repositories.MultimediaRepository;
 import com.riwi.filtro_spring_boot.infraestructure.abstract_service.IMultimediaService;
 import com.riwi.filtro_spring_boot.utils.enums.SortType;
+import com.riwi.filtro_spring_boot.utils.exceptions.BadRequestException;
 
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
 public class MultimediaService implements IMultimediaService{
 
+    @Autowired
+    private IMultimediaService multimediaService;
+    @Autowired
+    private MultimediaRepository multimediaRepository;
+   
     @Override
     public MultimediaRequest create(MultimediaRequest request) {
         // TODO Auto-generated method stub
@@ -57,5 +70,16 @@ public class MultimediaService implements IMultimediaService{
                 })
                 .collect(Collectors.toList());
          return multimediaResponses;
+    }
+
+    private Multimedia requestToEntity(MultimediaRequest request){
+        Multimedia multimedia = new Multimedia();
+        BeanUtils.copyProperties(request,multimedia);
+        return multimedia;
+    }
+
+    private Multimedia find(Long id){
+        return this.multimediaRepository.findById(id)
+                .orElseThrow(()-> new BadRequestException("multimedia"));
     }
 }
